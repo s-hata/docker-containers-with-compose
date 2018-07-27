@@ -1,0 +1,25 @@
+version: "3"
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: "./containers/postgres/Dockerfile"
+    image: "dev-postgres"
+    container_name: "dev-postgres"
+    env_file: ".env"
+    environment:
+      POSTGRES_PASSWORD: "$POSTGRES_PASSWORD"
+      POSTGRES_INITDB_ARGS: "--locale=ja_JP.UTF-8 --encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./container/postgres/initdb.d:/docker-entrypoint-initdb.d/"
+  redis:
+    build:
+      context: .
+      dockerfile: "./containers/redis/Dockerfile"
+    image: "dev-redis"
+    container_name: "dev-redix"
+    env_file: ".env"
+    ports:
+      - "6739:6739"
